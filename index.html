@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎃 萬聖節神祕驚喜 👻</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #13011c 0%, #000000 100%);
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        /* 背景飄落的小裝飾 */
+        .decorations {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .item {
+            position: absolute;
+            font-size: 24px;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(360deg); opacity: 0.3; }
+        }
+
+        /* 主要互動區域 */
+        .box {
+            text-align: center;
+            z-index: 2;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ff9900;
+            font-size: 2rem;
+            text-shadow: 0 0 10px rgba(255,153,0,0.5);
+            margin-bottom: 5px;
+        }
+
+        .tip {
+            color: #aaa;
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        /* 大南瓜按鈕 */
+        .btn {
+            font-size: 6rem;
+            cursor: pointer;
+            display: inline-block;
+            transition: transform 0.2s;
+            animation: bounce 2s infinite ease-in-out;
+        }
+        .btn:hover {
+            transform: scale(1.15);
+        }
+        .btn:active {
+            transform: scale(0.9);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* 彈出式告白卡片 */
+        .card {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(30, 15, 45, 0.95);
+            border: 2px solid #ff5500;
+            box-shadow: 0 0 30px rgba(255, 85, 0, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+            width: 85%;
+            max-width: 400px;
+            z-index: 10;
+            animation: popup 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popup {
+            to { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .card h2 {
+            color: #ff5500;
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #f0e6ff;
+            white-space: pre-line;
+            text-align: left;
+        }
+
+        .close-btn {
+            background: #ff5500;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            font-size: 0.95rem;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 背景飄落物 -->
+    <div class="decorations" id="decorations"></div>
+
+    <!-- 主畫面 -->
+    <div class="box" id="mainBox">
+        <h1>Happy Halloween! 🔮</h1>
+        <div class="tip">點擊大南瓜領取給你的惡作劇...</div>
+        <div class="btn" onclick="openCard()">🎃</div>
+    </div>
+
+    <!-- 告白卡片 -->
+    <div class="card" id="loveCard">
+        <h2>👻 不給糖，只給你我的心 ❤️</h2>
+        <p>
+            親愛的：譚寶
+            哈哈 今天太忙沒去找你
+	    希望你這隻吸血鬼可以趕快長出兩支牙
+            但又害怕你遭罪
+            其實我只希望你每天快樂
+	    當個色鬼跟吸血鬼 
+            別當我們這種累死鬼就好
+	    阿你什麼時候要叫晨晨阿
+	    好想聽你叫喔
+            
+            萬聖節快樂！我只要你。🎃
+        </p>
+        <button class="close-btn" onclick="closeCard()">收下真心</button>
+    </div>
+
+    <script>
+        // 自動產生背景飄落的幽靈與南瓜
+        const dec = document.getElementById('decorations');
+        const items = ['🎃', '👻', '🦇', '🍬', '✨'];
+        
+        for (let i = 0; i < 20; i++) {
+            let div = document.createElement('div');
+            div.className = 'item';
+            div.innerText = items[Math.floor(Math.random() * items.length)];
+            div.style.left = Math.random() * 100 + 'vw';
+            div.style.animationDuration = (Math.random() * 3 + 3) + 's'; // 3-6秒飄完
+            div.style.animationDelay = (Math.random() * 5) + 's';
+            div.style.fontSize = (Math.random() * 15 + 15) + 'px';
+            dec.appendChild(div);
+        }
+
+        // 控制卡片顯示
+        function openCard() {
+            document.getElementById('loveCard').style.display = 'block';
+        }
+
+        function closeCard() {
+            document.getElementById('loveCard').style.display = 'none';
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎃 萬聖節神祕驚喜 👻</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #13011c 0%, #000000 100%);
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        /* 背景飄落的小裝飾 */
+        .decorations {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .item {
+            position: absolute;
+            font-size: 24px;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(360deg); opacity: 0.3; }
+        }
+
+        /* 主要互動區域 */
+        .box {
+            text-align: center;
+            z-index: 2;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ff9900;
+            font-size: 2rem;
+            text-shadow: 0 0 10px rgba(255,153,0,0.5);
+            margin-bottom: 5px;
+        }
+
+        .tip {
+            color: #aaa;
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        /* 大南瓜按鈕 */
+        .btn {
+            font-size: 6rem;
+            cursor: pointer;
+            display: inline-block;
+            transition: transform 0.2s;
+            animation: bounce 2s infinite ease-in-out;
+        }
+        .btn:hover {
+            transform: scale(1.15);
+        }
+        .btn:active {
+            transform: scale(0.9);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* 彈出式告白卡片 */
+        .card {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(30, 15, 45, 0.95);
+            border: 2px solid #ff5500;
+            box-shadow: 0 0 30px rgba(255, 85, 0, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+            width: 85%;
+            max-width: 400px;
+            z-index: 10;
+            animation: popup 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popup {
+            to { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .card h2 {
+            color: #ff5500;
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #f0e6ff;
+            white-space: pre-line;
+            text-align: left;
+        }
+
+        .close-btn {
+            background: #ff5500;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            font-size: 0.95rem;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 背景飄落物 -->
+    <div class="decorations" id="decorations"></div>
+
+    <!-- 主畫面 -->
+    <div class="box" id="mainBox">
+        <h1>Happy Halloween! 🔮</h1>
+        <div class="tip">點擊大南瓜領取給你的惡作劇...</div>
+        <div class="btn" onclick="openCard()">🎃</div>
+    </div>
+
+    <!-- 告白卡片 -->
+    <div class="card" id="loveCard">
+        <h2>👻 不給糖，只給你我的心 ❤️</h2>
+        <p>
+            親愛的：譚寶
+            哈哈 今天太忙沒去找你
+	    希望你這隻吸血鬼可以趕快長出兩支牙
+            但又害怕你遭罪
+            其實我只希望你每天快樂
+	    當個色鬼跟吸血鬼 
+            別當我們這種累死鬼就好
+	    阿你什麼時候要叫晨晨阿
+	    好想聽你叫喔
+            
+            萬聖節快樂！我只要你。🎃
+        </p>
+        <button class="close-btn" onclick="closeCard()">收下真心</button>
+    </div>
+
+    <script>
+        // 自動產生背景飄落的幽靈與南瓜
+        const dec = document.getElementById('decorations');
+        const items = ['🎃', '👻', '🦇', '🍬', '✨'];
+        
+        for (let i = 0; i < 20; i++) {
+            let div = document.createElement('div');
+            div.className = 'item';
+            div.innerText = items[Math.floor(Math.random() * items.length)];
+            div.style.left = Math.random() * 100 + 'vw';
+            div.style.animationDuration = (Math.random() * 3 + 3) + 's'; // 3-6秒飄完
+            div.style.animationDelay = (Math.random() * 5) + 's';
+            div.style.fontSize = (Math.random() * 15 + 15) + 'px';
+            dec.appendChild(div);
+        }
+
+        // 控制卡片顯示
+        function openCard() {
+            document.getElementById('loveCard').style.display = 'block';
+        }
+
+        function closeCard() {
+            document.getElementById('loveCard').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
